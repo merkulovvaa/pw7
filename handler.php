@@ -1,3 +1,9 @@
+<?php
+require 'db.php';
+require 'upload.php';
+
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -33,16 +39,13 @@
         file_put_contents('database/users.csv', '');
     }
 
-    if($isUploaded == true){
-        $fp = fopen('database/users.csv', 'a');
-        fwrite($fp, "$name,$email,$gender,$filePath \n");
-        fclose($fp);
-    } else {
-        $fp = fopen('database/users.csv', 'a');
-        fwrite($fp, "$name,$email,$gender \n");
-        fclose($fp);
+    $sql = "INSERT INTO users (email, name, gender, password, path_to_img)
+    VALUES ('$email', '$name','$gender', '11111', '$filePath')";
+    echo $sql;
+    $res = mysqli_query($conn, $sql);
+    if ($res) {
+        $valid = true;
     }
-
     ?>
 
     <hr>

@@ -15,25 +15,47 @@
 <body style="padding-top: 3rem;">
 
 <div class="container">
+<!--    --><?php
+//    ini_set('display_errors', 'Off');
+//
+//    $localstorage = file_get_contents("database/users.csv");
+//    $str = explode("\n", $localstorage);
+//
+//    foreach ($str as $value){
+//        $user = explode(",", $value);
+//        $users[] = [
+//            'name' => $user[0],
+//            'email' => $user[1],
+//            'gender' => $user[2]
+//        ];
+//    }
+//
+//    foreach ($users as $value){
+//        echo $value['name'].' '.$value['email'].' '.$value['gender'].'<br><hr>';
+//    }
+//    ?>
     <?php
-    ini_set('display_errors', 'Off');
+    require 'db.php';
+    $sql = "SELECT * FROM users";
+    $result = $conn->query($sql);
 
-    $localstorage = file_get_contents("database/users.csv");
-    $str = explode("\n", $localstorage);
+    if ($result->num_rows > 0) {
+    // output data of each row
+        while($row = $result->fetch_assoc()) {
+            $users[] = [
+            'name' => $row['name'],
+            'email' => $row['email'],
+            'gender' => $row['gender'],
+            'path'=>$row['path_to_img']
+            ];
+        }
 
-    foreach ($str as $value){
-        $user = explode(",", $value);
-        $users[] = [
-            'name' => $user[0],
-            'email' => $user[1],
-            'gender' => $user[2]
-        ];
-    }
-
-    foreach ($users as $value){
-        echo $value['name'].' '.$value['email'].' '.$value['gender'].'<br><hr>';
+        foreach ($users as $value){
+            echo $value['name'].' '.$value['email'].' '.$value['gender'].'<br><hr>';
+        }
     }
     ?>
+
     <a class="btn" href="adduser.php">return back</a>
 
 </div>
